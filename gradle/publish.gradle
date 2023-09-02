@@ -1,0 +1,81 @@
+apply plugin: 'maven-publish'
+
+ext {
+    groupId = 'ua.com.rmarinsky'
+}
+
+archivesBaseName = artifactId
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.withType(Jar).configureEach {
+    manifest {
+        attributes(
+                "Automatic-Module-Name": project.groupId + '.' + project.artifactId.replace('-', '.'),
+                "Implementation-Title": project.groupId + '.' + project.artifactId,
+                "Implementation-Version": archiveVersion,
+                "Implementation-Vendor": "https://github.com/rmarinsky")
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.groupId
+            artifactId project.artifactId
+            from components.java
+
+            pom {
+                name = archivesBaseName
+                description = 'Drama = concise wrapper for Playwright in Selenide style'
+                url = 'https://github.com/rmarinsky'
+                inceptionYear = '2023'
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'rmarinsky'
+                        name = 'Roman Marinskyi'
+                    }
+                }
+                scm {
+                    connection = 'scm:git@github.com:rmarinsky/drama.git'
+                    developerConnection = 'scm:git@github.com:rmarinsky/drama.git'
+                    url = 'https://github.com/rmarinsky/drama'
+                }
+            }
+        }
+    }
+}
+
+if (project.hasProperty("signing.keyId")) {
+    apply plugin: 'signing'
+
+    signing {
+        afterEvaluate {
+            sign publishing.publications.mavenJava
+        }
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name 'Maven'
+                url project.version.endsWith("-SNAPSHOT") ?
+                        'https://oss.sonatype.org/content/repositories/snapshots/' :
+                        'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                credentials {
+                    username "$sonatypeUsername"
+                    password "$sonatypePassword"
+                }
+            }
+        }
+    }
+}
