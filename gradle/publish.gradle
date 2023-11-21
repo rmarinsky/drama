@@ -6,11 +6,6 @@ ext {
     groupId = 'io.github.rmarinsky'
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 tasks.withType(Jar).configureEach {
     manifest {
         attributes(
