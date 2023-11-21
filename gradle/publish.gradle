@@ -37,7 +37,7 @@ artifacts {
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
             artifact sourceJar
 
@@ -64,7 +64,7 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git@github.com:rmarinsky/drama.git'
+                    connection = 'scm:https://github.com/rmarinsky/drama.git'
                     developerConnection = 'scm:git@github.com:rmarinsky/drama.git'
                     url = 'https://github.com/rmarinsky/drama'
                 }
@@ -79,7 +79,7 @@ signing {
             System.getProperty("SINGING_SECRETKEYRINGFILE"),
             System.getProperty("SIGNING_PASSWORD")
     )
-    sign publishing.publications.maven
+    sign publishing.publications.mavenJava
 }
 
 publishing {
