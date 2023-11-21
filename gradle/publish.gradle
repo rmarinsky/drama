@@ -5,8 +5,6 @@ ext {
     groupId = 'io.github.rmarinsky'
 }
 
-archivesBaseName = artifactId
-
 java {
     withJavadocJar()
     withSourcesJar()
@@ -66,18 +64,22 @@ publishing {
 }
 
 signing {
-    useInMemoryPgpKeys(findProperty("signing.keyId"), findProperty("signing.secretKeyRingFile"), findProperty("signing.password"))
-    sign publishing.publications.mavenJava
+    useInMemoryPgpKeys(
+            System.getProperty("SIGNING_KEYID"),
+            System.getProperty("SINGING_SECRETKEYRINGFILE"),
+            System.getProperty("SIGNING_PASSWORD")
+    )
+    sign publishing.publications.maven
 }
 
 publishing {
     repositories {
         maven {
             name 'Maven'
-            url project.version = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
             credentials {
-                username "$sonatypeUsername"
-                password "$sonatypePassword"
+                username = System.getProperty("SONAR_USERNAME")
+                password = System.getProperty("SONAR_PASSWORD")
             }
         }
     }
