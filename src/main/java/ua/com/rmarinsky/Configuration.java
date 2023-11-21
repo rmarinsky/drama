@@ -2,7 +2,7 @@ package ua.com.rmarinsky;
 
 public class Configuration {
 
-    public static String baseUrl = null; // This will be null by default
+    public static String baseUrl = null;
     public static boolean headless = true;
     public static boolean devTools = false;
     public static double defaultTimeout = 4000.0;
