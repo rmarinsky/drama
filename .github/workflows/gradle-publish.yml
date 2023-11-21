@@ -1,4 +1,4 @@
-name: Publish Drama to central.sonartype.com
+name: Publish Drama to os1.sonatype.com
 
 on:
   release:
@@ -30,19 +30,19 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          cache-disabled: true
+          cache-disabled: false
 
       - name: Execute Gradle build
         run: ./gradlew build
         env:
-          SONAR_USERNAME: ${{ secrets.SONAR_USERNAME }}
-          SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONAR_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONAR_PASSWORD }}
 
-      - name: Publish to sonartype
-        run: ./gradlew publish --no-parallel --info --rerun-tasks
+      - name: Publish drama to sonatype
+        run: ./gradlew publish
         env:
-          SIGNING_KEYID: ${{ secrets.SIGNING_KEYID }}
-          SINGING_SECRETKEYRINGFILE: secret.gpg
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SONAR_USERNAME: ${{ secrets.SONAR_USERNAME }}
-          SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEYID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: secret.gpg
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONAR_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONAR_PASSWORD }}
