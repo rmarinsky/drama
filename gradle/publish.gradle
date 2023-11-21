@@ -1,10 +1,9 @@
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 ext {
-    groupId = 'ua.com.rmarinsky'
+    groupId = 'io.github.rmarinsky'
 }
-
-archivesBaseName = artifactId
 
 java {
     withJavadocJar()
@@ -21,17 +20,26 @@ tasks.withType(Jar).configureEach {
     }
 }
 
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = "sources"
+}
+
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            groupId project.groupId
-            artifactId project.artifactId
+        maven(MavenPublication) {
             from components.java
+            artifact sourceJar
+
+            groupId = project.groupId
+            artifactId = project.artifactId
+            version = project.version
 
             pom {
-                name = archivesBaseName
-                description = 'Drama = concise wrapper for Playwright in Selenide style'
-                url = 'https://github.com/rmarinsky'
+                name = "drama"
+                description = 'drama = concise wrapper for Playwright in Selenide style'
+                url = 'https://github.com/rmarinsky/drama'
                 inceptionYear = '2023'
                 licenses {
                     license {
@@ -55,26 +63,23 @@ publishing {
     }
 }
 
-if (project.hasProperty("signing.keyId")) {
-    apply plugin: 'signing'
+signing {
+    useInMemoryPgpKeys(
+            System.getProperty("SIGNING_KEYID"),
+            System.getProperty("SINGING_SECRETKEYRINGFILE"),
+            System.getProperty("SIGNING_PASSWORD")
+    )
+    sign publishing.publications.maven
+}
 
-    signing {
-        afterEvaluate {
-            sign publishing.publications.mavenJava
-        }
-    }
-
-    publishing {
-        repositories {
-            maven {
-                name 'Maven'
-                url project.version.endsWith("-SNAPSHOT") ?
-                        'https://oss.sonatype.org/content/repositories/snapshots/' :
-                        'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-                credentials {
-                    username "$sonatypeUsername"
-                    password "$sonatypePassword"
-                }
+publishing {
+    repositories {
+        maven {
+            name 'Maven'
+            url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = System.getProperty("SONAR_USERNAME")
+                password = System.getProperty("SONAR_PASSWORD")
             }
         }
     }
