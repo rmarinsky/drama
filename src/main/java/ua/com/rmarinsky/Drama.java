@@ -1,12 +1,10 @@
 package ua.com.rmarinsky;
 
 import com.microsoft.playwright.Locator;
-import lombok.experimental.UtilityClass;
 
 public class Drama {
 
     public static void open(String url) {
-//        var targetUrl = url.startsWith("http") ? url : Configuration.baseUrl + url;
         Scene.play().getPage().navigate(url);
     }
 
@@ -14,9 +12,9 @@ public class Drama {
         return new LocatorActions(Scene.play().getPage().locator(selector).first());
     }
 
-    public static LocatorActions find(String selector, String filterWithText) {
+    public static LocatorActions find(String selector, String withText) {
         return new LocatorActions(Scene.play().getPage().locator(selector).filter(
-                new Locator.FilterOptions().setHasText(filterWithText)
+                new Locator.FilterOptions().setHasText(withText)
         ).first());
     }
 
