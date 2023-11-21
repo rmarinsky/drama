@@ -2,6 +2,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'java-library'
 apply plugin: 'signing'
 
+
 ext {
     groupId = 'io.github.rmarinsky'
 }
@@ -21,15 +22,22 @@ tasks.withType(Jar).configureEach {
     }
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier.set('sources')
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            groupId project.groupId
+            artifactId project.artifactId
             from components.java
-            artifact sourceJar
-
-            groupId = project.groupId
-            artifactId = project.artifactId
-            version = project.version
 
             pom {
                 name = "drama"
@@ -38,8 +46,8 @@ publishing {
                 inceptionYear = '2023'
                 licenses {
                     license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name = 'MIT'
+                        url = 'https://opensource.org/licenses/MIT'
                     }
                 }
                 developers {
@@ -57,24 +65,21 @@ publishing {
             }
         }
     }
-    repositories {
-        maven {
-            name 'Maven'
-            url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-            credentials {
-                username = System.getProperty("SONAR_USERNAME")
-                password = System.getProperty("SONAR_PASSWORD")
-            }
-        }
-    }
-
 }
 
 signing {
-    useInMemoryPgpKeys(
-            System.getProperty("SIGNING_KEYID"),
-            System.getProperty("SINGING_SECRETKEYRINGFILE"),
-            System.getProperty("SIGNING_PASSWORD")
-    )
-    sign publishing.publications.mavenJava
+    afterEvaluate {
+        sign publishing.publications.mavenJava
+    }
+}
+
+repositories {
+    maven {
+        name 'Maven'
+        url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+        credentials {
+            username = System.getProperty("SONAR_USERNAME")
+            password = System.getProperty("SONAR_PASSWORD")
+        }
+    }
 }

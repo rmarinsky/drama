@@ -2,7 +2,6 @@ plugins {
     id 'idea'
     id 'java'
     id 'io.freefair.lombok' version '8.1.0'
-    id 'java-library'
 }
 
 ext {
