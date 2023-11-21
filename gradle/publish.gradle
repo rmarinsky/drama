@@ -65,21 +65,17 @@ publishing {
             }
         }
     }
+    repositories {
+        maven {
+            url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = System.getProperty("SONAR_USERNAME")
+                password = System.getProperty("SONAR_PASSWORD")
+            }
+        }
+    }
 }
 
 signing {
-    afterEvaluate {
-        sign publishing.publications.mavenJava
-    }
-}
-
-repositories {
-    maven {
-        name 'Maven'
-        url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-        credentials {
-            username = System.getProperty("SONAR_USERNAME")
-            password = System.getProperty("SONAR_PASSWORD")
-        }
-    }
+    sign publishing.publications
 }
