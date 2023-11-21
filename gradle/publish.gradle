@@ -6,6 +6,11 @@ ext {
     groupId = 'io.github.rmarinsky'
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks.withType(Jar).configureEach {
     manifest {
         attributes(
@@ -14,20 +19,6 @@ tasks.withType(Jar).configureEach {
                 "Implementation-Version": archiveVersion,
                 "Implementation-Vendor": "https://github.com/rmarinsky")
     }
-}
-
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
 }
 
 publishing {
@@ -66,18 +57,6 @@ publishing {
             }
         }
     }
-}
-
-signing {
-    useInMemoryPgpKeys(
-            System.getProperty("SIGNING_KEYID"),
-            System.getProperty("SINGING_SECRETKEYRINGFILE"),
-            System.getProperty("SIGNING_PASSWORD")
-    )
-    sign publishing.publications.mavenJava
-}
-
-publishing {
     repositories {
         maven {
             name 'Maven'
@@ -88,4 +67,14 @@ publishing {
             }
         }
     }
+
+}
+
+signing {
+    useInMemoryPgpKeys(
+            System.getProperty("SIGNING_KEYID"),
+            System.getProperty("SINGING_SECRETKEYRINGFILE"),
+            System.getProperty("SIGNING_PASSWORD")
+    )
+    sign publishing.publications.mavenJava
 }
