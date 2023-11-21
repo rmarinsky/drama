@@ -1,26 +1,16 @@
 package ua.com.rmarinsky;
 
 import com.microsoft.playwright.Locator;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import ua.com.rmarinsky.conditions.Condition;
 
-@AllArgsConstructor
+@Data
 public class LocatorActions {
 
     private final Locator locator;
 
     public LocatorActions fill(String text) {
         locator.fill(text);
-        return this;
-    }
-
-    public LocatorActions parent() {
-        locator.locator("..");
-        return this;
-    }
-
-    public LocatorActions closest(String ancestor) {
-        locator.locator("//ancestor::" + ancestor);
         return this;
     }
 

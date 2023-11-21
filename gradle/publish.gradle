@@ -1,8 +1,7 @@
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
 
 ext {
-    groupId = 'io.github.rmarinsky'
+    groupId = 'ua.com.rmarinsky'
 }
 
 archivesBaseName = artifactId
@@ -22,26 +21,17 @@ tasks.withType(Jar).configureEach {
     }
 }
 
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-    archiveClassifier = "sources"
-}
-
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
+            groupId project.groupId
+            artifactId project.artifactId
             from components.java
-            artifact sourceJar
-
-            groupId = project.groupId
-            artifactId = project.artifactId
-            version = project.version
 
             pom {
-                name = "drama"
-                description = 'drama = concise wrapper for Playwright in Selenide style'
-                url = 'https://github.com/rmarinsky/drama'
+                name = archivesBaseName
+                description = 'Drama = concise wrapper for Playwright in Selenide style'
+                url = 'https://github.com/rmarinsky'
                 inceptionYear = '2023'
                 licenses {
                     license {
@@ -65,19 +55,26 @@ publishing {
     }
 }
 
-signing {
-    useInMemoryPgpKeys(findProperty("signing.keyId"), findProperty("signing.secretKeyRingFile"), findProperty("signing.password"))
-    sign publishing.publications.mavenJava
-}
+if (project.hasProperty("signing.keyId")) {
+    apply plugin: 'signing'
 
-publishing {
-    repositories {
-        maven {
-            name 'Maven'
-            url project.version = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-            credentials {
-                username "$sonatypeUsername"
-                password "$sonatypePassword"
+    signing {
+        afterEvaluate {
+            sign publishing.publications.mavenJava
+        }
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name 'Maven'
+                url project.version.endsWith("-SNAPSHOT") ?
+                        'https://oss.sonatype.org/content/repositories/snapshots/' :
+                        'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                credentials {
+                    username "$sonatypeUsername"
+                    password "$sonatypePassword"
+                }
             }
         }
     }

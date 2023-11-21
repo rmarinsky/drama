@@ -4,13 +4,14 @@ plugins {
     id 'io.freefair.lombok' version '8.1.0'
     id 'signing'
     id 'java-library'
+    id 'maven-publish'
 }
 
 ext {
     artifactId = 'drama'
 }
 
-group = 'io.github.rmarinsky'
+group = 'ua.com.rmarinsky'
 version = '0.1'
 
 apply from: 'gradle/publish.gradle'
@@ -23,23 +24,17 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
 dependencies {
-    implementation(
-            'com.microsoft.playwright:playwright:1.40.0',
-            'org.junit.jupiter:junit-jupiter'
-    )
+    implementation('com.microsoft.playwright:playwright:1.37.0')
     implementation platform('org.junit:junit-bom:5.9.1')
+    implementation 'org.junit.jupiter:junit-jupiter'
 }
 
 test {
     useJUnitPlatform()
 }
 
-task pwServeTraces(type: JavaExec, group: 'pw') {
+task pwServeTraces(type: JavaExec, group:'pw') {
     mainClass = 'com.microsoft.playwright.CLI'
     classpath = sourceSets.main.runtimeClasspath
     args 'show-trace', 'build/pw/' + System.getProperty("trace") + '.zip'
