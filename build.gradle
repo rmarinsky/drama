@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.rmarinsky'
-version = '0.1.1'
+version = '0.2'
 
 java {
     toolchain {
@@ -59,7 +59,7 @@ publishing {
             from components.java
 
             pom {
-                description = 'First release'
+                description = 'Drama - wrapper for Playwright inspired by Selenide'
             }
         }
     }

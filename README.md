@@ -26,7 +26,7 @@ dependencyResolutionManagement {
     }
 }
 ```
-
+and to dependencies section in build.gradle file:
 ```groovy
 implementation 'com.github.rmarinsky:drama:0.2'
 ```
