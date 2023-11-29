@@ -25,6 +25,11 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    archiveBaseName = artifactName
+    version = '0.1'
+}
+
 dependencies {
     implementation(
             'com.microsoft.playwright:playwright:1.40.0',
