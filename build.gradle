@@ -2,7 +2,6 @@ plugins {
     id 'idea'
     id 'java'
     id 'io.freefair.lombok' version '8.1.0'
-    id "com.vanniktech.maven.publish" version "0.25.3"
 }
 
 ext {
@@ -10,7 +9,7 @@ ext {
 }
 
 group = 'ua.com.rmarinsky'
-version = '0.1.1'
+version = '0.1'
 
 java {
     toolchain {
@@ -20,6 +19,10 @@ java {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
