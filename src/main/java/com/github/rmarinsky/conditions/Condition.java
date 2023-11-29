@@ -12,6 +12,18 @@ public interface Condition {
         return new TextCondition(expectedText);
     }
 
+    static Condition texts(String... expectedText) {
+        return new TextsCondition(expectedText);
+    }
+
+    static Condition value(String expectedValue) {
+        return new ValueCondition(expectedValue);
+    }
+
+    static Condition attribute(String attributeName, String expectedValue) {
+        return new AttributeCondition(attributeName, expectedValue);
+    }
+
     void verify(LocatorActions locatorActions);
 
 }
