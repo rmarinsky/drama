@@ -2,19 +2,18 @@ plugins {
     id 'idea'
     id 'java'
     id 'io.freefair.lombok' version '8.1.0'
+    id 'maven-publish'
 }
 
-ext {
-    artifactName = 'drama'
-}
-
-group = 'ua.com.rmarinsky'
-version = '0.1'
+group = 'com.github.rmarinsky'
+version = '0.1.1'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
     }
+    withSourcesJar()
+    withJavadocJar()
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -26,8 +25,8 @@ repositories {
 }
 
 jar {
-    archiveBaseName = artifactName
-    version = '0.1'
+    archiveBaseName = project.name
+    version = project.version
 }
 
 dependencies {
@@ -47,4 +46,24 @@ task pwServeTraces(type: JavaExec, group: 'pw') {
     classpath = sourceSets.main.runtimeClasspath
     args 'show-trace', 'build/pw/' + System.getProperty("trace") + '.zip'
     systemProperties = System.getProperties()
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+
+            from components.java
+
+            pom {
+                description = 'First release'
+            }
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
 }

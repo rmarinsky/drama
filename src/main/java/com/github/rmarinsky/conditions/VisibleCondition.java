@@ -1,8 +1,8 @@
-package ua.com.rmarinsky.conditions;
+package com.github.rmarinsky.conditions;
 
 import com.microsoft.playwright.assertions.LocatorAssertions;
-import ua.com.rmarinsky.Configuration;
-import ua.com.rmarinsky.LocatorActions;
+import com.github.rmarinsky.Configuration;
+import com.github.rmarinsky.LocatorActions;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 

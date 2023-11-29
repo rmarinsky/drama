@@ -1,9 +1,9 @@
-package ua.com.rmarinsky;
+package com.github.rmarinsky;
 
+import com.github.rmarinsky.conditions.Condition;
 import com.microsoft.playwright.Locator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import ua.com.rmarinsky.conditions.Condition;
 
 @AllArgsConstructor
 @Getter

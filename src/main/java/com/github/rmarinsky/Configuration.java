@@ -1,4 +1,4 @@
-package ua.com.rmarinsky;
+package com.github.rmarinsky;
 
 public class Configuration {
 

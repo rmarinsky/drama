@@ -1,7 +1,7 @@
-package ua.com.rmarinsky.conditions;
+package com.github.rmarinsky.conditions;
 
 
-import ua.com.rmarinsky.LocatorActions;
+import com.github.rmarinsky.LocatorActions;
 
 public interface Condition {
 
