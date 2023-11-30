@@ -11,6 +11,27 @@ public class LocatorActions {
 
     private final Locator locator;
 
+    public LocatorActions find(String locator) {
+        return Drama.find(locator);
+    }
+
+    public LocatorActions find(String locator, String filterWithText) {
+        return Drama.find(locator, filterWithText);
+    }
+
+    public LocatorActions $(String selector) {
+        return find(selector);
+    }
+
+    public LocatorActions $(String selector, String filterWithText) {
+        return find(selector, filterWithText);
+    }
+
+    public LocatorActions f(String selector) {
+        return find(selector);
+    }
+
+
     public LocatorActions fill(String text) {
         locator.fill(text);
         return this;
