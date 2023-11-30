@@ -57,6 +57,22 @@ public class LocatorActions {
         return this;
     }
 
+    public String textContent() {
+        return locator.textContent();
+    }
+
+    public String innerText() {
+        return locator.innerText();
+    }
+
+    public String innerHTML() {
+        return locator.innerHTML();
+    }
+
+    public String getAttribute(String attributeName) {
+        return locator.getAttribute(attributeName);
+    }
+
     public LocatorActions shouldBe(Condition condition) {
         condition.verify(this);
         return this;
