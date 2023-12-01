@@ -1,16 +1,16 @@
 package com.github.rmarinsky.conditions;
 
-import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.github.rmarinsky.Configuration;
-import com.github.rmarinsky.LocatorActions;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.assertions.LocatorAssertions;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class VisibleCondition implements Condition {
 
     @Override
-    public void verify(LocatorActions locatorActions) {
-        assertThat(locatorActions.getLocator()).isVisible(
+    public void verify(Locator locator) {
+        assertThat(locator).isVisible(
                 new LocatorAssertions.IsVisibleOptions().setTimeout(Configuration.defaultTimeout)
         );
     }

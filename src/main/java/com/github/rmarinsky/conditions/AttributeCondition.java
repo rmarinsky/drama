@@ -1,6 +1,6 @@
 package com.github.rmarinsky.conditions;
 
-import com.github.rmarinsky.LocatorActions;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 
 public class AttributeCondition implements Condition {
@@ -13,10 +13,7 @@ public class AttributeCondition implements Condition {
     }
 
     @Override
-    public void verify(LocatorActions locatorActions) {
-        PlaywrightAssertions.assertThat(locatorActions.getLocator()).hasAttribute(
-                attributeName,
-                expectedValue
-        );
+    public void verify(Locator locator) {
+        PlaywrightAssertions.assertThat(locator).hasAttribute(attributeName, expectedValue);
     }
 }

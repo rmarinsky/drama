@@ -1,6 +1,6 @@
 package com.github.rmarinsky.conditions;
 
-import com.github.rmarinsky.LocatorActions;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 
 public class TextsCondition implements Condition {
@@ -11,7 +11,7 @@ public class TextsCondition implements Condition {
     }
 
     @Override
-    public void verify(LocatorActions locatorActions) {
-        PlaywrightAssertions.assertThat(locatorActions.getLocator()).containsText(expectedTexts);
+    public void verify(Locator locator) {
+        PlaywrightAssertions.assertThat(locator).containsText(expectedTexts);
     }
 }

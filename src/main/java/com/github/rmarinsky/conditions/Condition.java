@@ -1,7 +1,7 @@
 package com.github.rmarinsky.conditions;
 
 
-import com.github.rmarinsky.LocatorActions;
+import com.microsoft.playwright.Locator;
 
 public interface Condition {
 
@@ -24,6 +24,6 @@ public interface Condition {
         return new AttributeCondition(attributeName, expectedValue);
     }
 
-    void verify(LocatorActions locatorActions);
+    void verify(Locator locator);
 
 }

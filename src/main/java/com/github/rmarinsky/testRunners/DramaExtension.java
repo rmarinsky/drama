@@ -1,10 +1,10 @@
 package com.github.rmarinsky.testRunners;
 
+import com.github.rmarinsky.Configuration;
+import com.github.rmarinsky.Scene;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import com.github.rmarinsky.Configuration;
-import com.github.rmarinsky.Scene;
 
 public class DramaExtension implements BeforeEachCallback, AfterEachCallback {
 

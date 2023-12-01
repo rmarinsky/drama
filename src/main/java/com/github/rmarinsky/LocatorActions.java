@@ -52,6 +52,11 @@ public class LocatorActions {
         return this;
     }
 
+    public LocatorActions pressEnter() {
+        locator.press("Enter");
+        return this;
+    }
+
     public LocatorActions click() {
         locator.click();
         return this;
@@ -74,22 +79,42 @@ public class LocatorActions {
     }
 
     public LocatorActions shouldBe(Condition condition) {
-        condition.verify(this);
+        condition.verify(locator);
         return this;
     }
 
     public LocatorActions should(Condition condition) {
-        condition.verify(this);
+        condition.verify(locator);
         return this;
     }
 
     public LocatorActions shouldHave(Condition condition) {
-        condition.verify(this);
+        condition.verify(locator);
         return this;
     }
 
     public LocatorActions shouldHas(Condition condition) {
-        condition.verify(this);
+        condition.verify(locator);
+        return this;
+    }
+
+    public LocatorActions first() {
+        locator.first();
+        return this;
+    }
+
+    public LocatorActions last() {
+        locator.last();
+        return this;
+    }
+
+    public LocatorActions nth(int index) {
+        locator.nth(index);
+        return this;
+    }
+
+    public LocatorActions all() {
+        locator.all();
         return this;
     }
 

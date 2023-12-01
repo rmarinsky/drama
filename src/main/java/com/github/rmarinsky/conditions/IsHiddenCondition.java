@@ -1,16 +1,17 @@
 package com.github.rmarinsky.conditions;
 
-import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.github.rmarinsky.Configuration;
-import com.github.rmarinsky.LocatorActions;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.assertions.LocatorAssertions;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class IsHiddenCondition implements Condition {
 
     @Override
-    public void verify(LocatorActions locatorActions) {
-        assertThat(locatorActions.getLocator()).isHidden(
+    public void verify(Locator locatorActions) {
+        PlaywrightAssertions.assertThat(locatorActions).isHidden(
                 new LocatorAssertions.IsHiddenOptions().setTimeout(Configuration.defaultTimeout)
         );
     }
