@@ -30,6 +30,10 @@ public class Drama {
         return find(selector);
     }
 
+    public void waitForUrl(String expectedUrl) {
+        Scene.play().getPage().waitForURL(expectedUrl);
+    }
+
     public void clearCookies() {
         Scene.play().getContext().clearCookies();
     }

@@ -5,8 +5,6 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
 public class IsHiddenCondition implements Condition {
 
     @Override

@@ -31,6 +31,10 @@ public class LocatorActions {
         return find(selector);
     }
 
+    public LocatorActions clear() {
+        locator.clear();
+        return this;
+    }
 
     public LocatorActions fill(String text) {
         locator.fill(text);

@@ -24,6 +24,10 @@ public interface Condition {
         return new AttributeCondition(attributeName, expectedValue);
     }
 
+    static Condition className(String expectedClassName) {
+        return new ClassCondition(expectedClassName);
+    }
+
     void verify(Locator locator);
 
 }
