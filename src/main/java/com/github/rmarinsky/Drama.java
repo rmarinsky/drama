@@ -26,15 +26,15 @@ public class Drama {
         return find(selector, filterWithText);
     }
 
-    public LocatorActions f(String selector) {
+    public static LocatorActions f(String selector) {
         return find(selector);
     }
 
-    public void waitForUrl(String expectedUrl) {
+    public static void waitForUrl(String expectedUrl) {
         Scene.play().getPage().waitForURL(expectedUrl);
     }
 
-    public void clearCookies() {
+    public static void clearCookies() {
         Scene.play().getContext().clearCookies();
     }
 
