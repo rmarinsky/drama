@@ -8,12 +8,16 @@ public interface Condition {
     Condition visible = new VisibleCondition();
     Condition hidden = new IsHiddenCondition();
 
+    static Condition visibleUntil(Integer maxTimeout) {
+        return new VisibleUntil(maxTimeout);
+    }
+
     static Condition text(String expectedText) {
         return new TextCondition(expectedText);
     }
 
-    static Condition texts(String... expectedText) {
-        return new TextsCondition(expectedText);
+    static Condition texts(String... expectedTexts) {
+        return new TextsCondition(expectedTexts);
     }
 
     static Condition value(String expectedValue) {
