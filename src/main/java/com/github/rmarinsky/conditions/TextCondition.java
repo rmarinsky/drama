@@ -16,7 +16,7 @@ public class TextCondition implements Condition {
     public void verify(Locator locator) {
         assertThat(locator).hasText(
                 expectedText,
-                new LocatorAssertions.HasTextOptions().setTimeout(Configuration.defaultTimeout)
+                new LocatorAssertions.HasTextOptions().setTimeout(Configuration.defaultTimeout).setIgnoreCase(true)
         );
     }
 
