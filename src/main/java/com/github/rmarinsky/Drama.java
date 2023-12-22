@@ -1,6 +1,5 @@
 package com.github.rmarinsky;
 
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
 /**
@@ -48,11 +47,13 @@ public class Drama {
      * Example:
      * find("#username").click();
      *
+     * <p> <a href="https://playwright.dev/java/docs/other-locators#css-pick-n-th-match-from-the-query-result">find first</a></p>
+     *
      * @param selector the CSS selector or XPath expression to locate the element
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions find(String selector) {
-        return findAll(selector).first();
+        return new LocatorActions(Scene.play().page().locator(":nth-match(" + selector + ", 1)"));
     }
 
     /**
@@ -66,9 +67,7 @@ public class Drama {
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions find(String selector, String withText) {
-        return new LocatorActions(Scene.play().page().locator(selector).filter(
-                new Locator.FilterOptions().setHasText(withText)
-        ).first());
+        return new LocatorActions(Scene.play().page().locator(selector, new Page.LocatorOptions().setHasText(withText)).first());
     }
 
     /**

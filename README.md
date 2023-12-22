@@ -28,7 +28,7 @@ dependencyResolutionManagement {
 ```
 and to dependencies section in build.gradle file:
 ```groovy
-implementation 'com.github.rmarinsky:drama:0.9.1'
+implementation 'com.github.rmarinsky:drama:0.10'
 ```
 
 ### Maven
