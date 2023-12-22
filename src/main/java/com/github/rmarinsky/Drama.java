@@ -23,6 +23,17 @@ public class Drama {
                 .navigate(url);
     }
 
+    /**
+     * finds all elements specified by the given selector and returns an instance of LocatorActions
+     * Example:
+     * findAll("#username").shouldHave(texts("ololo", "trololo"));
+     *
+     * @param selector the CSS selector or XPath expression to locate the element
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions findAll(String selector) {
+        return new LocatorActions(Scene.play().getPage().locator(selector));
+    }
 
     /**
      * Finds the element specified by the given selector and returns an instance of LocatorActions
@@ -34,7 +45,7 @@ public class Drama {
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions find(String selector) {
-        return new LocatorActions(Scene.play().getPage().locator(selector).first());
+        return findAll(selector).first();
     }
 
     /**
@@ -51,6 +62,16 @@ public class Drama {
         return new LocatorActions(Scene.play().getPage().locator(selector).filter(
                 new Locator.FilterOptions().setHasText(withText)
         ).first());
+    }
+
+    /**
+     * Alias for the {@link #findAll(String)} method.
+     *
+     * @param selector the CSS selector or XPath expression to locate the elements
+     * @return an instance of LocatorActions that represents the found all elements
+     */
+    public static LocatorActions $$(String selector) {
+        return findAll(selector);
     }
 
     /**
@@ -82,6 +103,16 @@ public class Drama {
      */
     public static LocatorActions f(String selector) {
         return find(selector);
+    }
+
+    /**
+     * Alias for the {@link #findAll(String)} method.
+     *
+     * @param selector the CSS selector or XPath expression to locate the elements
+     * @return an instance of LocatorActions that represents the found all elements
+     */
+    public static LocatorActions ff(String selector) {
+        return findAll(selector);
     }
 
     /**
