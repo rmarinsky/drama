@@ -1,23 +1,26 @@
 package com.github.rmarinsky;
 
+import com.github.rmarinsky.testRunners.DramaExtension;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.github.rmarinsky.conditions.Condition.text;
-import static org.junit.jupiter.api.Assertions.fail;
 
+@ExtendWith(DramaExtension.class)
 public class ConfigurationsTests {
 
     static {
         Configuration.baseUrl = "https://github.com";
+        Configuration.saveTraces = true;
     }
 
 
-    @Test
-    @DisplayName("check opening the page")
+    @RepeatedTest(5)
+    @DisplayName("check opening the page of drama repository")
     void checkOpeningThePage() {
         Drama.open("/rmarinsky/drama");
-        Drama.find(".application-main a[href='/rmarinsky/drama']").shouldHave(text("drama"));
+        Drama.find("#repository-container-header strong a").shouldHave(text("drama"));
     }
 
 }

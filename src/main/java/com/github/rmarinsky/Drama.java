@@ -19,8 +19,15 @@ public class Drama {
      */
     public static void open(String url) {
         Scene.play()
-                .getPage()
+                .page()
                 .navigate(url);
+    }
+
+    /**
+     * Pause execution of test and open recorder in browser
+     */
+    public static void pause() {
+        Scene.play().page().pause();
     }
 
     /**
@@ -32,7 +39,7 @@ public class Drama {
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions findAll(String selector) {
-        return new LocatorActions(Scene.play().getPage().locator(selector));
+        return new LocatorActions(Scene.play().page().locator(selector));
     }
 
     /**
@@ -59,7 +66,7 @@ public class Drama {
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions find(String selector, String withText) {
-        return new LocatorActions(Scene.play().getPage().locator(selector).filter(
+        return new LocatorActions(Scene.play().page().locator(selector).filter(
                 new Locator.FilterOptions().setHasText(withText)
         ).first());
     }
@@ -124,7 +131,7 @@ public class Drama {
      * @param expectedUrl the expected URL to wait for
      */
     public static void waitForUrl(String expectedUrl) {
-        Scene.play().getPage().waitForURL(expectedUrl);
+        Scene.play().page().waitForURL(expectedUrl);
     }
 
     /**
@@ -133,7 +140,7 @@ public class Drama {
      * Drama.clearCookies();
      */
     public static void clearCookies() {
-        Scene.play().getContext().clearCookies();
+        Scene.play().context().clearCookies();
     }
 
     /**
@@ -146,7 +153,7 @@ public class Drama {
      * drama.newTab();
      */
     public Drama newTab() {
-        Scene.play().getContext().newPage();
+        Scene.play().context().newPage();
         return this;
     }
 
@@ -156,7 +163,7 @@ public class Drama {
      * @return bytes
      */
     public byte[] getScreenshot() {
-        return Scene.play().getPage().screenshot();
+        return Scene.play().page().screenshot();
     }
 
     /**
@@ -165,7 +172,7 @@ public class Drama {
      * @return bytes
      */
     public byte[] getScreenshot(Page.ScreenshotOptions options) {
-        return Scene.play().getPage().screenshot(options);
+        return Scene.play().page().screenshot(options);
     }
 
 }
