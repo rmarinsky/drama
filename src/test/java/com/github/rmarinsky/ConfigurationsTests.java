@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static com.github.rmarinsky.Drama.find;
+import static com.github.rmarinsky.Drama.open;
 import static com.github.rmarinsky.conditions.Condition.text;
 
 @ExtendWith(DramaExtension.class)
@@ -19,8 +21,8 @@ public class ConfigurationsTests {
     @RepeatedTest(5)
     @DisplayName("check opening the page of drama repository")
     void checkOpeningThePage() {
-        Drama.open("/rmarinsky/drama");
-        Drama.find("#repository-container-header strong a").shouldHave(text("drama"));
+        open("/rmarinsky/drama");
+        find("#repository-container-header strong a").shouldHave(text("drama"));
     }
 
 }

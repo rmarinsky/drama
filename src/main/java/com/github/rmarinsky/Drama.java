@@ -1,6 +1,9 @@
 package com.github.rmarinsky;
 
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.PlaywrightException;
+
+import java.util.List;
 
 /**
  * The Drama class provides methods for interacting with web pages in a browser.
@@ -130,7 +133,11 @@ public class Drama {
      * @param expectedUrl the expected URL to wait for
      */
     public static void waitForUrl(String expectedUrl) {
-        Scene.play().page().waitForURL(expectedUrl);
+        try {
+            Scene.play().page().waitForURL(expectedUrl);
+        } catch (PlaywrightException e) {
+            throw new PlaywrightException("Expected page to have: '" + expectedUrl + "' but was:\n" + Scene.play().page().url());
+        }
     }
 
     /**
@@ -151,9 +158,8 @@ public class Drama {
      * Drama newDrama = new Drama();
      * drama.newTab();
      */
-    public Drama newTab() {
+    public static void newTab() {
         Scene.play().context().newPage();
-        return this;
     }
 
     /**
@@ -161,7 +167,7 @@ public class Drama {
      *
      * @return bytes
      */
-    public byte[] getScreenshot() {
+    public static byte[] getScreenshot() {
         return Scene.play().page().screenshot();
     }
 
@@ -170,8 +176,24 @@ public class Drama {
      *
      * @return bytes
      */
-    public byte[] getScreenshot(Page.ScreenshotOptions options) {
+    public static byte[] getScreenshot(Page.ScreenshotOptions options) {
         return Scene.play().page().screenshot(options);
+    }
+
+    public static List<Page> getActiveTabs() {
+        return Scene.play().context().pages();
+    }
+
+    public static void switchToTab(int index) {
+        Scene.play().page(Scene.play().context().pages().get(index));
+    }
+
+    /**
+     * Closes the current tab and switch to the previous tab.
+     */
+    public static void closeActiveTab() {
+        Scene.play().page().close();
+        switchToTab(getActiveTabs().size() - 1);
     }
 
 }

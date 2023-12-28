@@ -197,6 +197,39 @@ public class LocatorActions {
     }
 
     /**
+     * Clicks on the element represented by the locator
+     * Waiting and initializing the new page
+     * Waits for the new page to be loaded.
+     * <p>
+     * Usage:
+     * <pre>{@code
+     * find("a").clickWithNewPage();
+     * }</pre>
+     *
+     * @return an instance of LocatorActions for method chaining
+     */
+    public LocatorActions clickWithNewPage() {
+        var newPage = Scene.play().context().waitForPage(locator::click);
+        Scene.play().page(newPage);
+        return this;
+    }
+
+    /**
+     * Open link in the same tab represented by the locator.
+     * <p>
+     * Usage:
+     * <pre>{@code
+     * find("a").clickOnLink();
+     * }</pre>
+     *
+     * @return an instance of LocatorActions for method chaining
+     */
+    public LocatorActions clickOnLink() {
+        Drama.open(locator.getAttribute("href"));
+        return this;
+    }
+
+    /**
      * Returns the text content of the element represented by the locator.
      * <p>
      * Usage:
