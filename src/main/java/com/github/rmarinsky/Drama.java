@@ -152,14 +152,15 @@ public class Drama {
     /**
      * Opens a new tab in the current browser context and returns the Drama object.
      *
-     * @return The Drama object representing the new tab.
      * <p>
      * Example:
      * Drama newDrama = new Drama();
      * drama.newTab();
+     * </p>
      */
     public static void newTab() {
-        Scene.play().context().newPage();
+        Page newPage = Scene.play().context().newPage();
+        Scene.play().page(newPage);
     }
 
     /**
