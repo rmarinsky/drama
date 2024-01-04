@@ -209,8 +209,8 @@ public class LocatorActions {
      * @return an instance of LocatorActions for method chaining
      */
     public LocatorActions clickWithNewPage() {
-        var newPage = Scene.play().context().waitForPage(locator::click);
-        Scene.play().page(newPage);
+        var newPage = DramaWrapper.drama().context().waitForPage(locator::click);
+        DramaWrapper.drama().page(newPage);
         return this;
     }
 

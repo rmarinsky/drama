@@ -17,7 +17,6 @@ public class ConfigurationsTests {
         Configuration.saveTraces = true;
     }
 
-
     @RepeatedTest(5)
     @DisplayName("check opening the page of drama repository")
     void checkOpeningThePage() {

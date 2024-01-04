@@ -1,12 +1,13 @@
 plugins {
     id 'idea'
     id 'java'
+    id 'java-library'
     id 'io.freefair.lombok' version '8.1.0'
     id 'maven-publish'
 }
 
 group = 'com.github.rmarinsky'
-version = '0.10'
+version = '0.20'
 
 java {
     toolchain {
@@ -30,11 +31,11 @@ jar {
 }
 
 dependencies {
-    implementation(
-            'com.microsoft.playwright:playwright:1.40.0',
-            'org.junit.jupiter:junit-jupiter'
+    api(
+            'org.junit.jupiter:junit-jupiter',
+            'com.microsoft.playwright:playwright:1.40.0'
     )
-    implementation platform('org.junit:junit-bom:5.9.1')
+    api platform('org.junit:junit-bom:5.9.1')
 }
 
 test {

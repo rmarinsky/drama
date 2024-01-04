@@ -2,6 +2,7 @@ package com.github.rmarinsky;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
+import com.microsoft.playwright.options.WaitUntilState;
 
 import java.util.List;
 
@@ -20,16 +21,16 @@ public class Drama {
      * @param url the URL or path to open
      */
     public static void open(String url) {
-        Scene.play()
+        DramaWrapper.drama()
                 .page()
-                .navigate(url);
+                .navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.NETWORKIDLE));
     }
 
     /**
      * Pause execution of test and open recorder in browser
      */
     public static void pause() {
-        Scene.play().page().pause();
+        DramaWrapper.drama().page().pause();
     }
 
     /**
@@ -41,7 +42,7 @@ public class Drama {
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions findAll(String selector) {
-        return new LocatorActions(Scene.play().page().locator(selector));
+        return new LocatorActions(DramaWrapper.drama().page().locator(selector));
     }
 
     /**
@@ -56,7 +57,7 @@ public class Drama {
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions find(String selector) {
-        return new LocatorActions(Scene.play().page().locator(":nth-match(" + selector + ", 1)"));
+        return new LocatorActions(DramaWrapper.drama().page().locator(":nth-match(" + selector + ", 1)"));
     }
 
     /**
@@ -70,7 +71,7 @@ public class Drama {
      * @return an instance of LocatorActions that represents the found element
      */
     public static LocatorActions find(String selector, String withText) {
-        return new LocatorActions(Scene.play().page().locator(selector, new Page.LocatorOptions().setHasText(withText)).first());
+        return new LocatorActions(DramaWrapper.drama().page().locator(selector, new Page.LocatorOptions().setHasText(withText)).first());
     }
 
     /**
@@ -134,9 +135,9 @@ public class Drama {
      */
     public static void waitForUrl(String expectedUrl) {
         try {
-            Scene.play().page().waitForURL(expectedUrl);
+            DramaWrapper.drama().page().waitForURL(expectedUrl);
         } catch (PlaywrightException e) {
-            throw new PlaywrightException("Expected page to have: '" + expectedUrl + "' but was:\n" + Scene.play().page().url());
+            throw new PlaywrightException("Expected page to have: '" + expectedUrl + "' but was:\n" + DramaWrapper.drama().page().url());
         }
     }
 
@@ -146,7 +147,7 @@ public class Drama {
      * Drama.clearCookies();
      */
     public static void clearCookies() {
-        Scene.play().context().clearCookies();
+        DramaWrapper.drama().context().clearCookies();
     }
 
     /**
@@ -159,8 +160,8 @@ public class Drama {
      * </p>
      */
     public static void newTab() {
-        Page newPage = Scene.play().context().newPage();
-        Scene.play().page(newPage);
+        Page newPage = DramaWrapper.drama().context().newPage();
+        DramaWrapper.drama().page(newPage);
     }
 
     /**
@@ -169,7 +170,7 @@ public class Drama {
      * @return bytes
      */
     public static byte[] getScreenshot() {
-        return Scene.play().page().screenshot();
+        return DramaWrapper.drama().page().screenshot();
     }
 
     /**
@@ -178,22 +179,22 @@ public class Drama {
      * @return bytes
      */
     public static byte[] getScreenshot(Page.ScreenshotOptions options) {
-        return Scene.play().page().screenshot(options);
+        return DramaWrapper.drama().page().screenshot(options);
     }
 
     public static List<Page> getActiveTabs() {
-        return Scene.play().context().pages();
+        return DramaWrapper.drama().context().pages();
     }
 
     public static void switchToTab(int index) {
-        Scene.play().page(Scene.play().context().pages().get(index));
+        DramaWrapper.drama().page(DramaWrapper.drama().context().pages().get(index));
     }
 
     /**
      * Closes the current tab and switch to the previous tab.
      */
     public static void closeActiveTab() {
-        Scene.play().page().close();
+        DramaWrapper.drama().page().close();
         switchToTab(getActiveTabs().size() - 1);
     }
 

@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @AllArgsConstructor
-public class Scene {
+public class DramaWrapper {
 
-    private static final ConcurrentHashMap<Long, Scene> drama = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Long, DramaWrapper> drama = new ConcurrentHashMap<>();
 
     @Getter
     private Playwright playwright;
@@ -27,7 +28,7 @@ public class Scene {
     @Setter
     private Page page;
 
-    private Scene(Playwright playwright, Browser browser) {
+    private DramaWrapper(Playwright playwright, Browser browser) {
         this.playwright = playwright;
         this.browser = browser;
     }
@@ -44,18 +45,22 @@ public class Scene {
                         .setDevtools(Configuration.devTools)
                         .setSlowMo(Configuration.poolingInterval)
                         .setTracesDir(Paths.get(Configuration.tracesPath))
+                        .setArgs(List.of("--remote-allow-origins"))
         );
     }
 
     private static BrowserContext initBrowserContext(Browser browser) {
-        return browser.newContext(new Browser.NewContextOptions().setBaseURL(Configuration.baseUrl));
+        return browser.newContext(new Browser.NewContextOptions()
+                .setBaseURL(Configuration.baseUrl));
+
     }
 
-    static Scene play() {
+    public static DramaWrapper drama() {
         return drama.computeIfAbsent(Thread.currentThread().getId(), k -> {
             var playwright = createPlaywright();
             var browser = createBrowser(playwright);
-            var scene = new Scene(playwright, browser);
+            var scene = new DramaWrapper(playwright, browser);
+            //todo is needed to refactor this to init always, but with updating one for traces saving
             if (!Configuration.saveTraces) {
                 var browserContext = initBrowserContext(browser);
                 var page = browserContext.newPage();
@@ -67,7 +72,7 @@ public class Scene {
     }
 
     public static void initTestContext(boolean traces, String testName) {
-        var scene = play();
+        var scene = drama();
         var browserContext = initBrowserContext(scene.browser());
         if (traces) {
             browserContext.tracing().start(new Tracing.StartOptions()
@@ -83,7 +88,7 @@ public class Scene {
     }
 
     public static void closeContext(boolean traces, String testName) {
-        var scene = play();
+        var scene = drama();
         scene.page().close();
         var targetContext = scene.context();
         if (traces) {
