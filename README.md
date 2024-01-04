@@ -3,11 +3,12 @@
 ## Usage
 
 ```java
+
 @Test
 public void test() {
-    open("https://google.com")
-    $("[name=q]").fill("Selenide").pressEnter()
-    $("#search")).shouldHave(text("selenide.org"));
+    open("https://google.com");
+    $("[name=q]").fill("Selenide").pressEnter();
+    $("#search").shouldHave(text("selenide.org"));
 }
 ```
 
@@ -26,26 +27,38 @@ dependencyResolutionManagement {
     }
 }
 ```
-and to dependencies section in build.gradle file:
+
+or just add to repositories section in build.gradle to repositories block:
+
 ```groovy
-implementation 'com.github.rmarinsky:drama:0.20'
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+
+and to dependencies section in build.gradle file:
+
+```groovy
+implementation 'com.github.rmarinsky:drama:0.30'
 ```
 
 ### Maven
 
 ```xml
 <repositories>
-    <repository> 
+    <repository>
         <id>jitpack.io</id>
         <url>https://jitpack.io</url>
     </repository>
 </repositories>
 ```
+
 and to dependencies section:
+
 ```xml
 <dependency>
     <groupId>com.github.rmarinsky</groupId>
     <artifactId>drama</artifactId>
-    <version>0.8</version>
+    <version>0.30</version>
 </dependency>
 ```

@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.github.rmarinsky'
-version = '0.20'
+version = '0.30'
 
 java {
     toolchain {
@@ -31,11 +31,10 @@ jar {
 }
 
 dependencies {
-    api(
-            'org.junit.jupiter:junit-jupiter',
-            'com.microsoft.playwright:playwright:1.40.0'
-    )
-    api platform('org.junit:junit-bom:5.9.1')
+    api('com.microsoft.playwright:playwright:1.40.0')
+
+    implementation('org.junit.jupiter:junit-jupiter')
+    implementation platform('org.junit:junit-bom:5.9.1')
 }
 
 test {

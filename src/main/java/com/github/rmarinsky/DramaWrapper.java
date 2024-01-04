@@ -1,24 +1,20 @@
 package com.github.rmarinsky;
 
 import com.microsoft.playwright.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
-@AllArgsConstructor
 public class DramaWrapper {
 
-    private static final ConcurrentHashMap<Long, DramaWrapper> drama = new ConcurrentHashMap<>();
+    private static final ThreadLocal<DramaWrapper> drama = new ThreadLocal<>();
 
     @Getter
-    private Playwright playwright;
+    private final Playwright playwright;
 
     @Getter
-    private Browser browser;
+    private final Browser browser;
 
     @Getter
     @Setter
@@ -28,16 +24,14 @@ public class DramaWrapper {
     @Setter
     private Page page;
 
-    private DramaWrapper(Playwright playwright, Browser browser) {
-        this.playwright = playwright;
-        this.browser = browser;
+    private DramaWrapper() {
+        this.playwright = Playwright.create();
+        this.browser = launchBrowser(this.playwright);
+        this.context = initBrowserContext(this.browser);
+        this.page = this.context.newPage();
     }
 
-    private static Playwright createPlaywright() {
-        return Playwright.create();
-    }
-
-    private static Browser createBrowser(Playwright playwright) {
+    private static Browser launchBrowser(Playwright playwright) {
         return playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
                         .setHeadless(Configuration.headless)
@@ -45,68 +39,47 @@ public class DramaWrapper {
                         .setDevtools(Configuration.devTools)
                         .setSlowMo(Configuration.poolingInterval)
                         .setTracesDir(Paths.get(Configuration.tracesPath))
-                        .setArgs(List.of("--remote-allow-origins"))
+                        .setArgs(Configuration.additionalArgs)
         );
     }
 
     private static BrowserContext initBrowserContext(Browser browser) {
         return browser.newContext(new Browser.NewContextOptions()
                 .setBaseURL(Configuration.baseUrl));
-
     }
 
     public static DramaWrapper drama() {
-        return drama.computeIfAbsent(Thread.currentThread().getId(), k -> {
-            var playwright = createPlaywright();
-            var browser = createBrowser(playwright);
-            var scene = new DramaWrapper(playwright, browser);
-            //todo is needed to refactor this to init always, but with updating one for traces saving
-            if (!Configuration.saveTraces) {
-                var browserContext = initBrowserContext(browser);
-                var page = browserContext.newPage();
-                scene.context(browserContext);
-                scene.page(page);
-            }
-            return scene;
-        });
+        if (drama.get() == null) {
+            drama.set(new DramaWrapper());
+        }
+        return drama.get();
     }
 
-    public static void initTestContext(boolean traces, String testName) {
-        var scene = drama();
-        var browserContext = initBrowserContext(scene.browser());
-        if (traces) {
-            browserContext.tracing().start(new Tracing.StartOptions()
-                    .setTitle(testName)
-                    .setName(testName + ".zip")
-                    .setScreenshots(true)
-                    .setSnapshots(true)
-                    .setSources(true));
-        }
-        var tarpage = browserContext.newPage();
-        scene.context(browserContext);
-        scene.page(tarpage);
+    public void startTracing(String testName) {
+        this.context.tracing().start(new Tracing.StartOptions()
+                .setTitle(testName)
+                .setName(testTraceZip(testName))
+                .setScreenshots(true)
+                .setSnapshots(true)
+                .setSources(true));
     }
 
-    public static void closeContext(boolean traces, String testName) {
-        var scene = drama();
-        scene.page().close();
-        var targetContext = scene.context();
-        if (traces) {
-            targetContext.tracing().stop(new Tracing.StopOptions()
-                    .setPath(Paths.get(Configuration.tracesPath, testName + ".zip")));
-        }
-        targetContext.close();
-        scene.context(null);
-        scene.page(null);
+    public void stopTracing(String testName) {
+        this.context.tracing().stop(new Tracing.StopOptions()
+                .setPath(Paths.get(Configuration.tracesPath, testTraceZip(testName))));
     }
 
-    static void close() {
-        var scene = drama.remove(Thread.currentThread().getId());
-        if (scene != null) {
-            closeContext(false, null);
-            scene.browser().close();
-            scene.playwright().close();
-        }
+    private String testTraceZip(String testName) {
+        return testName + ".zip";
+    }
+
+    public void close() {
+        this.stopTracing(null);
+        this.page.close();
+        this.context.close();
+        this.browser.close();
+        this.playwright.close();
+        drama.remove();
     }
 
 }
