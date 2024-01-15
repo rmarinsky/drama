@@ -113,11 +113,11 @@ public class Drama {
      * Finds the element specified by the text
      * The same as getByText() but allows you to specify the text of the element simpler
      *
-     * @param text
+     * @param textInElement
      * @return an instance of LocatorActions that represents the found element
      */
-    public static LocatorActions text(String text) {
-        return new LocatorActions(DramaWrapper.drama().page().getByText(text));
+    public static LocatorActions byText(String textInElement) {
+        return new LocatorActions(DramaWrapper.drama().page().getByText(textInElement));
     }
 
     /**
