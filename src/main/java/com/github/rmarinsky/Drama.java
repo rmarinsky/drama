@@ -2,6 +2,7 @@ package com.github.rmarinsky;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
+import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitUntilState;
 
 import java.util.List;
@@ -72,6 +73,107 @@ public class Drama {
      */
     public static LocatorActions find(String selector, String withText) {
         return new LocatorActions(DramaWrapper.drama().page().locator(selector, new Page.LocatorOptions().setHasText(withText)).first());
+    }
+
+    /**
+     * Finds the element specified by the aria accessibility attributes
+     * The same as getByRole() but allows you to specify the role of the element simpler
+     *
+     * @param role
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions role(AriaRole role) {
+        return new LocatorActions(DramaWrapper.drama().page().getByRole(role));
+    }
+
+    /**
+     * Finds the element specified by the aria accessibility attributes
+     * The same as getByRole() but allows you to specify the role and accessibility attributes of the element simpler
+     *
+     * @param role
+     * @param withAccessibilityName
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions role(AriaRole role, String withAccessibilityName) {
+        return new LocatorActions(DramaWrapper.drama().page().getByRole(role, new Page.GetByRoleOptions().setName(withAccessibilityName)));
+    }
+
+    /**
+     * Finds the element specified by the data-testId data attribute value
+     * The same as getByTestId() but allows you to specify the value of the element simpler
+     *
+     * @param testIdValue
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions testId(String testIdValue) {
+        return new LocatorActions(DramaWrapper.drama().page().getByTestId(testIdValue));
+    }
+
+    /**
+     * Finds the element specified by the text
+     * The same as getByText() but allows you to specify the text of the element simpler
+     *
+     * @param text
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions text(String text) {
+        return new LocatorActions(DramaWrapper.drama().page().getByText(text));
+    }
+
+    /**
+     * Finds the element specified by the text
+     * The same as getByText() but allows you to specify the text of the element simpler and case sensitive option
+     *
+     * @param text          for the element
+     * @param caseSensitive option true|false
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions text(String text, boolean caseSensitive) {
+        return new LocatorActions(DramaWrapper.drama().page().getByText(text, new Page.GetByTextOptions().setExact(caseSensitive)));
+    }
+
+    /**
+     * Finds the element specified by the label
+     * The same as getByLabel() but allows you to specify the label of the element simpler
+     *
+     * @param labelValue
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions label(String labelValue) {
+        return new LocatorActions(DramaWrapper.drama().page().getByLabel(labelValue));
+    }
+
+    /**
+     * Finds the element specified by the placeholder
+     * The same as getByPlaceholder() but allows you to specify the label of the element simpler and case sensitive option
+     *
+     * @param placeholderValue option true|false
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions placeholder(String placeholderValue) {
+        return new LocatorActions(DramaWrapper.drama().page().getByPlaceholder(placeholderValue));
+    }
+
+    /**
+     * Finds the element specified by the title
+     * The same as getByTitle() but allows you to specify the title of the element simpler
+     *
+     * @param titleValue
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions title(String titleValue) {
+        return new LocatorActions(DramaWrapper.drama().page().getByTitle(titleValue));
+    }
+
+    /**
+     * Finds the element specified by the alt text
+     * The same as getByAltText() but allows you to specify the alt text of the element simpler
+     *
+     * @param altTextValue
+     * @return an instance of LocatorActions that represents the found element
+     */
+    public static LocatorActions altText(String altTextValue) {
+        return new LocatorActions(DramaWrapper.drama().page().getByAltText(altTextValue));
     }
 
     /**

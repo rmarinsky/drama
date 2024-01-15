@@ -2,14 +2,17 @@ package com.github.rmarinsky;
 
 import com.github.rmarinsky.conditions.Condition;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.options.AriaRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
 public class LocatorActions {
 
-    private final Locator locator;
+    private Locator locator;
 
     /**
      * Chaining find of element
@@ -19,11 +22,12 @@ public class LocatorActions {
      * find("#parentElement").find("#childElement").fill("ololo");
      * }</pre>
      *
-     * @param locator the locator of the element to be found CSS or XPath
+     * @param childLocator the locator of the element to be found CSS or XPath
      * @return the child locator
      */
-    public LocatorActions find(String locator) {
-        return Drama.find(locator);
+    public LocatorActions find(String childLocator) {
+        this.locator = this.locator.locator(childLocator).first();
+        return this;
     }
 
     /**
@@ -34,12 +38,13 @@ public class LocatorActions {
      * find("#parentElement").find("#childElement", "with text").click();
      * }</pre>
      *
-     * @param locator        the locator of the element to be found CSS or XPath
+     * @param childLocator   the locator of the element to be found CSS or XPath
      * @param filterWithText the text used for filtering
      * @return an instance of LocatorActions representing the found element
      */
-    public LocatorActions find(String locator, String filterWithText) {
-        return Drama.find(locator, filterWithText);
+    public LocatorActions find(String childLocator, String filterWithText) {
+        this.locator = this.locator.locator(childLocator, new Locator.LocatorOptions().setHasText(filterWithText)).first();
+        return this;
     }
 
     /**
@@ -86,6 +91,14 @@ public class LocatorActions {
      */
     public LocatorActions f(String selector) {
         return find(selector);
+    }
+
+    public LocatorActions role(AriaRole role) {
+        return Drama.role(role);
+    }
+
+    public LocatorActions role(AriaRole role, String filterWithText) {
+        return Drama.role(role, filterWithText);
     }
 
     /**
@@ -388,9 +401,22 @@ public class LocatorActions {
      *
      * @return all elements matching the locator
      */
-    public LocatorActions all() {
-        locator.all();
-        return this;
+    public List<Locator> all() {
+        return locator.all();
+    }
+
+    /**
+     * Returns the number of elements matching the given locator.
+     * <p>
+     * Usage:
+     * <pre>{@code
+     * find("input").size();
+     * }</pre>
+     *
+     * @return the number of elements matching the locator
+     */
+    public int size() {
+        return all().size();
     }
 
 }
