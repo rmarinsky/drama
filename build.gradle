@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.github.rmarinsky'
-version = '0.31'
+version = '0.33'
 
 java {
     toolchain {
