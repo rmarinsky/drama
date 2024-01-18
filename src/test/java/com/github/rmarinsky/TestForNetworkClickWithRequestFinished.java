@@ -1,6 +1,5 @@
 package com.github.rmarinsky;
 
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,6 @@ import static com.github.rmarinsky.networkWaits.ClickConditions.withWaitForRespo
 
 public class TestForNetworkClickWithRequestFinished {
 
-    @SneakyThrows
     @Test
     @DisplayName("Wait for request after click")
     void waitForRequestAfterClick() {

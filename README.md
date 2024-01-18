@@ -39,7 +39,7 @@ repositories {
 and to dependencies section in build.gradle file:
 
 ```groovy
-implementation 'com.github.rmarinsky:drama:0.33'
+implementation 'com.github.rmarinsky:drama:0.33.1'
 ```
 
 ### Maven
