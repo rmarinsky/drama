@@ -1,6 +1,7 @@
 package com.github.rmarinsky;
 
 import com.github.rmarinsky.conditions.Condition;
+import com.github.rmarinsky.networkWaits.ClickConditions;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
 import lombok.AllArgsConstructor;
@@ -206,6 +207,23 @@ public class LocatorActions {
      */
     public LocatorActions click() {
         locator.click();
+        return this;
+    }
+
+    /**
+     * Clicks on the element represented by the locator
+     * Waiting for the specified NetworkCondition to be satisfied after clicking.
+     * <p>
+     * Usage:
+     * <pre>{@code
+     * find("input").click(ClickConditions.withWaitForResponse("/path/to/response"));
+     * }</pre>
+     *
+     * @param clickConditions the condition to be satisfied before clicking
+     * @return an instance of LocatorActions for method chaining
+     */
+    public LocatorActions click(ClickConditions clickConditions) {
+        clickConditions.wait(locator::click);
         return this;
     }
 
