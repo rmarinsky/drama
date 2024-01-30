@@ -11,7 +11,7 @@ import static com.github.rmarinsky.networkConditions.NetworkCondition.withWaitFo
 public class TestForNetworkClickWithRequestFinished {
 
     @Test
-    @DisplayName("Wait for request after click")
+    @DisplayName("Wait for request after click and fill")
     void waitForRequestAfterClick() {
         Configuration.headless = false;
         Configuration.baseUrl = "https://www.imdb.com";
