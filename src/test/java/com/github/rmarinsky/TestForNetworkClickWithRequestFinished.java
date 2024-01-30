@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import static com.github.rmarinsky.Drama.find;
 import static com.github.rmarinsky.Drama.open;
-import static com.github.rmarinsky.networkWaits.ClickConditions.withWaitForRequestFinished;
-import static com.github.rmarinsky.networkWaits.ClickConditions.withWaitForResponse;
+import static com.github.rmarinsky.networkConditions.NetworkCondition.withWaitForRequestFinished;
+import static com.github.rmarinsky.networkConditions.NetworkCondition.withWaitForResponse;
 
 public class TestForNetworkClickWithRequestFinished {
 
@@ -20,6 +20,8 @@ public class TestForNetworkClickWithRequestFinished {
 
         find(selector).click(withWaitForRequestFinished("/tr"));
         find(selector).click(withWaitForResponse("/tr", 1000));
+
+        find("#suggestion-search").fill("Shawshank", withWaitForResponse("Shawshank"));
     }
 
 }

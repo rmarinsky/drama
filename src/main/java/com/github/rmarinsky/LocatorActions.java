@@ -1,7 +1,7 @@
 package com.github.rmarinsky;
 
 import com.github.rmarinsky.conditions.Condition;
-import com.github.rmarinsky.networkWaits.ClickConditions;
+import com.github.rmarinsky.networkConditions.NetworkCondition;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
 import lombok.AllArgsConstructor;
@@ -133,6 +133,11 @@ public class LocatorActions {
         return this;
     }
 
+    public LocatorActions fill(String text, NetworkCondition fillConditions) {
+        fillConditions.wait(() -> locator.fill(text));
+        return this;
+    }
+
     /**
      * Navigates to the parent element of the current element.
      * <p>
@@ -222,7 +227,7 @@ public class LocatorActions {
      * @param clickConditions the condition to be satisfied before clicking
      * @return an instance of LocatorActions for method chaining
      */
-    public LocatorActions click(ClickConditions clickConditions) {
+    public LocatorActions click(NetworkCondition clickConditions) {
         clickConditions.wait(locator::click);
         return this;
     }

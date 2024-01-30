@@ -1,4 +1,4 @@
-package com.github.rmarinsky.networkWaits;
+package com.github.rmarinsky.networkConditions;
 
 import com.microsoft.playwright.Page;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import static com.github.rmarinsky.DramaWrapper.drama;
 
 @AllArgsConstructor
-public class ResponseFinished implements ClickConditions {
+public class ResponseFinished implements NetworkCondition {
 
     private final String waitForUrl;
     private final Integer timeoutToWait;
@@ -20,4 +20,5 @@ public class ResponseFinished implements ClickConditions {
                         locatorActionToWrapWithNetworkWaiter
                 );
     }
+
 }
