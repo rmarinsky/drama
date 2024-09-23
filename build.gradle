@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.github.rmarinsky'
-version = '0.35'
+version = '0.36'
 
 java {
     toolchain {
@@ -31,7 +31,7 @@ jar {
 }
 
 dependencies {
-    api('com.microsoft.playwright:playwright:1.41.2')
+    api('com.microsoft.playwright:playwright:1.47.0')
 
     implementation('org.junit.jupiter:junit-jupiter')
     implementation platform('org.junit:junit-bom:5.9.1')
