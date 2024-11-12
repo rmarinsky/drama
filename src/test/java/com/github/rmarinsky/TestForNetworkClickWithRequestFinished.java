@@ -17,10 +17,14 @@ public class TestForNetworkClickWithRequestFinished {
         open("/title/tt0111161/");
         String selector = ".ipc-shoveler__arrow--right [class*=right]";
 
-        $(selector).click(withWaitForRequestFinished("/tr"));
-        find(selector).click(withWaitForResponse("/tr", 1000));
+        clickOnNextInBannerAndWaitForResponse(selector);
 
         find("#suggestion-search").fill("Shawshank", withWaitForResponse("Shawshank"));
+    }
+
+    private static void clickOnNextInBannerAndWaitForResponse(String selector) {
+        $(selector).click(withWaitForRequestFinished("/tr"));
+        find(selector).click(withWaitForResponse("/tr", 1000));
     }
 
 }
